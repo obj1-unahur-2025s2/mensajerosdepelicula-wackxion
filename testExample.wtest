@@ -3,15 +3,86 @@ import destinos.*
 import paquetes.*
 import herramientas.*
 import vehiculos.*
+import empresaMensajeria.*
 
- 
-describe "test pedidos por ejercisio" {
-
-  test "Que roberto (90kg) puede llevar un paquete que está pago en un camión que tiene un acoplado." {
+// parte 1
+describe "probando" {
+test "Que roberto (90kg) puede llevar un paquete que está pago en un camión que tiene un acoplado." {
     roberto.cambioPeso(90)
     roberto.cambioVehiculo(camion)
     camion.agregar_Acoplados(1)
     assert.equals(false, roberto.puedeEntragar_En_(paquete, puenteBrooklyn))
   }
+test "test roberto (90kg)puede llevar un paquete que está pago en una bicicleta en el puente de brooklyn"{
+    roberto.cambioPeso(90)
+    paquete.pagar(1000)
+    roberto.cambioVehiculo(bicicleta)
+    assert.equals(true, roberto.puedeEntragar_En_(paquete, puenteBrooklyn))
+  }
+test "test neo, tiene credito pero el paquete no esta pago y no puede entregar"{
+    neo.herramienta().cargarCredito(5000)
+    assert.equals(false, neo.puedeEntragar_En_(paquete, laMatrix))
+  }
 
+test "test neo, tiene credito y el paquete esta pago y puede entregar"{
+    neo.herramienta().cargarCredito(5000)
+    paquete.pagar(1000)
+    assert.equals(true, neo.puedeEntragar_En_(paquete, laMatrix))
+  }
+test "chuck norris puede entregar en la matrix paquete pagado"{
+    paquete.pagar(1000)
+    assert.equals(true, chuckNorris.puedeEntragar_En_(paquete, laMatrix))
+  }
+
+test "chuck norris no puede entregar paquete pagado, en un camion con 2 acoplados en puente brooklyn"{
+    chuckNorris.cambioVehiculo(camion)
+    camion.agregar_Acoplados(2)
+    paquete.pagar(1000)
+    assert.equals(false, chuckNorris.puedeEntragar_En_(paquete, puenteBrooklyn))
+  }
+
+}
+//parte 2
+
+describe "probando las colecciones creadas " {
+
+test "que fedex argentino tiene 3 empleados"{
+  fedexArgentino.contratarMensajero(roberto)
+  fedexArgentino.contratarMensajero(chuckNorris)
+  fedexArgentino.contratarMensajero(neo)
+  assert.equals(3, fedexArgentino.cantidadDeEmpleados())
+  }
+test "que fedex argentino es una mensajeria grande"{
+  fedexArgentino.contratarMensajero(roberto)
+  fedexArgentino.contratarMensajero(chuckNorris)
+  fedexArgentino.contratarMensajero(neo)
+  assert.equals(true, fedexArgentino.mensajeriaEsGrande())
+  }
+test "que el primer empleado es roberto y puede entregar en puente brooklyn un paquete pagado"{
+  fedexArgentino.contratarMensajero(roberto)
+  fedexArgentino.contratarMensajero(chuckNorris)
+  fedexArgentino.contratarMensajero(neo)
+  paquete.pagar(1000)
+  assert.equals(true, fedexArgentino.ElPrimeroPuedeEntregar_En_(paquete, puenteBrooklyn))
+  }
+test "que el ultimo empleado es neo y pesa 80kg"{
+  fedexArgentino.contratarMensajero(neo)
+  fedexArgentino.contratarMensajero(chuckNorris)
+  fedexArgentino.contratarMensajero(roberto)
+  roberto.cambioPeso(80)
+  assert.equals(80, fedexArgentino.pesoDelUltimoEmpleado())
+  }
+test "contrata 3 empleados y los despide a todos"{
+  fedexArgentino.contratarMensajero(neo)
+  fedexArgentino.contratarMensajero(chuckNorris)
+  fedexArgentino.contratarMensajero(roberto)
+  fedexArgentino.despidirEmpleados()
+  assert.equals(0, fedexArgentino.cantidadDeEmpleados())
+  }
+test "contratas a neo y a roberto y despides a roberto"{
+  fedexArgentino.contratarMensajero(neo)
+  fedexArgentino.contratarMensajero(roberto)
+  fedexArgentino.despedirMensajero(roberto)
+  assert.equals(1, fedexArgentino.cantidadDeEmpleados())
+  }
 }

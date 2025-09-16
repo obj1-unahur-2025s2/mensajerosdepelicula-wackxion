@@ -23,7 +23,7 @@ method puedeEntragar_En_(elPaquete, elDestino) = self.deja_Pasar(elDestino) && s
 
 }
 object chuckNorris {
-    var vehiculo = 0
+    var vehiculo = null
 
 method cambioVehiculo(nuevoVehiculo){
     vehiculo = nuevoVehiculo
@@ -39,7 +39,7 @@ method puedeEntragar_En_(elPaquete, elDestino) = self.deja_Pasar(elDestino) && s
 }
 
 object neo {
-    var vehiculo = 0
+    var vehiculo = null
 
 method cambioVehiculo(nuevoVehiculo){
     vehiculo = nuevoVehiculo

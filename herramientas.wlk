@@ -1,5 +1,5 @@
 object telefono {
-  var credito = 100
+  var credito = 0
 method cargarCredito(monto) {
     credito += monto
 }
