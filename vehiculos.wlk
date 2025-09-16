@@ -1,7 +1,7 @@
 object camion {
-    var acoplados = 1
-method peso() { 500 * acoplados }
-method cambioDe_DeAcoplados(cantidad) { 
+    var acoplados = 0
+method peso() = (500 + (500 * acoplados)) // en el ejercicio nu se dice el peso del camion, pongo 500kg
+method agregar_Acoplados(cantidad) { 
     acoplados = cantidad
  }
 }
