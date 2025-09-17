@@ -65,7 +65,7 @@ test "que el primer empleado es roberto y puede entregar en puente brooklyn un p
   paquete.pagar(1000)
   assert.equals(true, fedexArgentino.ElPrimeroPuedeEntregar_En_(paquete, puenteBrooklyn))
   }
-test "que el ultimo empleado es neo y pesa 80kg"{
+test "que el ultimo empleado es roberto y pesa 80kg"{
   fedexArgentino.contratarMensajero(neo)
   fedexArgentino.contratarMensajero(chuckNorris)
   fedexArgentino.contratarMensajero(roberto)
@@ -86,3 +86,5 @@ test "contratas a neo y a roberto y despides a roberto"{
   assert.equals(1, fedexArgentino.cantidadDeEmpleados())
   }
 }
+
+// parte 3
