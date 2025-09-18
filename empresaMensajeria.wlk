@@ -3,26 +3,40 @@ import mensajeros.*
 
 // parte 2
 object fedexArgentino {
-  const contratados = []
-  const paquetes = []
-  const paquetesPendientes = []
+  const contratados = [neo]
+  var paqueteActual = null
+  const conjuntoDePaquetes = []
+  const paquetesPendientes = [].asSet()
+
+    method agregarPaqueteAlConjunto(nuevoPaquete){
+        conjuntoDePaquetes.add(nuevoPaquete)
+    }
+    method paquete() = paqueteActual
+    method paquetesPendientes() =  paquetesPendientes
     method contratarMensajero(mensajero) {
         contratados.add(mensajero)
     }
     method agregarPaquete(nuevoPaquete) {
-        paquetes.add(nuevoPaquete)
+        paqueteActual = nuevoPaquete
     }
     method agregarPaquetePendiente(nuevoPaquete) {
         paquetesPendientes.add(nuevoPaquete)
     }
-    method paqueteEntregado(paquete) {
-        paquetes.remove(paquete)
-    }
-    method paquetePendienteEntregado(paquete) {
-        paquetesPendientes.remove(paquete)
+    method paqueteEntregado(unPaquete) {
+        if (paqueteActual != null && paqueteActual == unPaquete) {
+            paqueteActual = null
+        } else {
+        paquetesPendientes.remove(unPaquete)
+        }
     }
     method despedirMensajero(mensajero) {
         contratados.remove(mensajero)
+    }
+    method enviar_SiSePuede(unPaquete){
+        if(self.alguienPuedeEntragar_(unPaquete)){
+            self.paqueteEntregado(unPaquete)
+        } else {
+            self.agregarPaquetePendiente(unPaquete)}
     }
     method despidirEmpleados() {
         contratados.clear()
@@ -35,10 +49,30 @@ object fedexArgentino {
     method ElPrimeroPuedeEntregar_En_(unPaquete, unDestino) = self.elPrimerEmpleado().puedeEntragar_En_(unPaquete,unDestino)
     method pesoDelUltimoEmpleado() = self.elUltimoEmpleado().peso() // no se aclara si su peso solo o con el tranporte
     method alguienPuedeEntragar_(unPaquete) {
-        contratados.filter({m => m.puedeEntragar_(unPaquete)}).size() > 0
+       return (contratados.filter({m => m.puedeEntragar_(unPaquete)}).size() > 0)
     }
     method quienesPuedenLlevar_(unPaquete) {
         contratados.filter({m => m.puedeEntragar_(unPaquete)})
     }
     method mensajeriaTieneSobrepeso() = contratados.map({m => m.peso()}).sum() > 500
+
+    method facturacionTotal() {
+        paqueteActual.costoDelPaquete() + 
+        paquetesPendientes.map({p => p.costoDelPaquete()}).sum() + 
+        conjuntoDePaquetes.map({p => p.costoDelPaquete()}).sum()
+    }
+    method  enviarConjuntoDePaquetes() {
+        conjuntoDePaquetes.forEach({p => self.enviar_SiSePuede(p)})
+        conjuntoDePaquetes.clear()
+    }
+    method paqueteMasCaroPendiente() = paquetesPendientes.max({p => p.costoDelPaquete()})
+    
+    method enviarPaqueteMasCaroPendiente() {
+        self.enviar_SiSePuede(self.paqueteMasCaroPendiente())
+    }
+
 }
+// puntos faltante me falta limar algunos cosas pero si sigo con este no hago ninguno mas
+// quiero hacer algun otra actividad y empesar la grupal - despues sigo - 18 - 09 - 2025
+//Cada punto debe tener mínimo un test que demuestren su correcto funcionamiento.
+//Agregar un nuevo mensajero y un nuevo paquete y garantizar que todo siga funcionando.

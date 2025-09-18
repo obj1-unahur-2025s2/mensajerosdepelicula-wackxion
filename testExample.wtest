@@ -19,28 +19,34 @@ test "test roberto (90kg)puede llevar un paquete que está pago en una bicicleta
     roberto.cambioPeso(90)
     paquete.pagar(1000)
     roberto.cambioVehiculo(bicicleta)
-    assert.equals(true, roberto.puedeEntregar_(paquete))
+    roberto.nuevoPaquete(paquete)
+    paquete.cambiarDestino(puenteBrooklyn)
+    assert.equals(true, roberto.puedeEntregar_(roberto.paquete()))
   }
 test "test neo, tiene credito pero el paquete no esta pago y no puede entregar"{
     neo.herramienta().cargarCredito(5000)
-    assert.equals(false, neo.puedeEntragar_En_(paquete))
+    neo.nuevoPaquete(paquete)
+    paquete.cambiarDestino(laMatrix)
+    assert.equals(false, neo.puedeEntregar_(neo.paquete()))
   }
 
 test "test neo, tiene credito y el paquete esta pago y puede entregar"{
     neo.herramienta().cargarCredito(5000)
+    neo.nuevoPaquete(paquete)
+    paquete.cambiarDestino(laMatrix)
     paquete.pagar(1000)
-    assert.equals(true, neo.puedeEntragar_En_(paquete, laMatrix))
+    assert.equals(true, neo.puedeEntregar_(neo.paquete()))
   }
 test "chuck norris puede entregar en la matrix paquete pagado"{
     paquete.pagar(1000)
-    assert.equals(true, chuckNorris.puedeEntragar_En_(paquete, laMatrix))
+    assert.equals(true, chuckNorris.puedeEntregar_(chuckNorris.paquete()))
   }
 
 test "chuck norris no puede entregar paquete pagado, en un camion con 2 acoplados en puente brooklyn"{
     chuckNorris.cambioVehiculo(camion)
     camion.agregar_Acoplados(2)
     paquete.pagar(1000)
-    assert.equals(false, chuckNorris.puedeEntragar_En_(paquete, puenteBrooklyn))
+    assert.equals(false, chuckNorris.puedeEntregar_(chuckNorris.paquete()))
   }
 
 }

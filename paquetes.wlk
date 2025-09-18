@@ -3,7 +3,7 @@ import mensajeros.*
 object paquete {
 
   var destino = null
-  var costoDelPaquete = 50
+  var costoDelPaquete = 300
   var pago = 0
 
   method cambiarDestino(nuevoDestino) {
@@ -26,7 +26,8 @@ object paquetito {
   method cambiarDestino(nuevoDestino) {
     destino = nuevoDestino
   }
-  method estaPago() = true
+  method costoDelPaquete() = 0
+  method estaPago() = 0 >= self.costoDelPaquete()
   method puedeTrasportarlo(mensajero) = destino.puedePasar(mensajero)
 }
 
@@ -36,7 +37,7 @@ object paquetito {
 object paquetonViajero {
   const destino = [laMatrix, puenteBrooklyn]
   var pago = 0
-  method costoDelPaquete() = (100 * destino.size())
+  method costoDelPaquete() = 50 + (100 * destino.size())
   method entregarPaquetes() { 
     destino.remove(destino.last())
     pago = pago - 100
